@@ -49,7 +49,7 @@ jobs:
     steps:
       - name: Checkout
         run: |
-          git clone https://github.com/q470393267/oOPiece.git ~/bbb
+          git clone https://github.com/q470393267/oOPiece.git ~/oOPiece
       - name: Use Node.js 12.x
         uses: actions/setup-node@v1
         with:
@@ -57,7 +57,7 @@ jobs:
       - name: npm install
         if: env.XL_URL
         run: |
-          cd ~/bbb
+          cd ~/oOPiece
           git checkout ZIYE
           npm install
       - name: '运行 【小乐】'
