@@ -1,0 +1,152 @@
+/* CSS笔记：
+ 1.外间距合并（上下合并）：当两个垂直外边距合并时，它们将合并成一个外边距，外边距的高度等于两个外边距的较大者
+ #box1{margin-buttom:150px; }  #box1{margin-top:50px; },最终box1和box2的上下距离为150px
+ 2.
+ */
+
+
+#sidebar{
+	width:50px;
+	height:300px;
+	border: 1px solid rosybrown;
+	border-radius: 10px 0 0 10px;
+	background-color: #00F7DE;
+	position: fixed;
+	right:0;
+	top:calc(50% - 300px/2);
+}
+/* starter of logo */
+#logo{
+	display: none;
+	width:90%;
+	height: 10vh;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+/* 	border: 1px solid saddlebrown; */
+	margin: 0px auto;
+	margin-top: 100px;
+	z-index: 1000;
+	justify-content: right;
+	background-color: whitesmoke;
+/* 	background: url(../img/bg2.png) no-repeat; */
+	/* display: flex;
+	justify-content:space-between;
+	align-items: center; */
+}
+/* end of logo */
+/* starter of nav*/
+#content{
+	position: relative;
+	min-width:500px;
+	margin:0px auto;
+	/* border:2px groove #01AAED; */
+	border-radius: 10px;
+	display: flex;
+	justify-content: space-around;
+	background-color:whitesmoke;
+}
+.content_modules{
+	border: 3px solid #009E94;/*  */
+	padding: 10px;
+	margin: 5px;
+	border-radius: 10px;
+}
+.content_modules>button{
+	margin: 10px auto;
+}
+.content{
+	width: 90%;
+	height: 99%;
+	border-radius: 10px;
+	position: flex;
+	border: 3px solid #009E94;
+}
+.content>iframe{
+	border: none;
+	width: 100%;
+	height: 100%;
+/* 	overflow-x: scroll; */
+}
+#nav{
+	width: 100%;
+	display:flex;
+	align-items: center;
+	justify-content: right;
+	/* border:1px solid #000000; */
+}
+#nav>li{
+	margin: 10px;
+}
+#adapt{
+	display: none;
+	cursor: pointer;
+}
+@media screen and (min-width:960px) {
+	.header{
+		min-width: 960px;
+	}
+	#logo{
+		position: absolute;
+		top: -9999px;
+	}
+	.content_modules{
+		display: flex;
+		flex-direction: column;
+	}
+	#content{
+		width: 85%;
+		height: 80vh;
+		top: 120px;
+	}
+}
+@media screen and (max-width:960px) and (min-width:750px){
+	.header{
+		width: 90.8%;
+	}
+	.header_right{
+		display: none;
+	}
+	#adapt{
+		display: block;
+	}
+	#content{
+		display: block;
+		top: 180px;
+		width: 100%;
+		height: 80vh;
+		margin-bottom: 100px;
+	}
+	.content{
+		width: 98%;
+		height: 85%;
+		margin: 0 auto;
+	}
+	.content_modules>button{
+		margin: 0px auto;
+	}
+}
+@media screen and (max-width:750px){
+	.header{
+		width: 90.8%;
+	}
+	.header_right{
+		display: none;
+	}
+	#adapt{
+		display: block;
+	}
+	#content{
+		top: 200px;
+		width: 100%;
+		height: 80vh;
+		display: block;
+		margin-bottom: 100px;
+	}
+	.content{
+		margin: 0 auto;
+		width: 98%;
+		height: 85%;
+	}
+}

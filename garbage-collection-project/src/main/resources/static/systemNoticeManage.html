@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>公告管理</title>
+	<script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
+	<script type="text/javascript" src="js/adminJscript.js"></script>
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css" />
+	<link rel="stylesheet" href="./css/main.css"/>
+	<link rel="stylesheet" href="https://at.alicdn.com/t/font_2150071_oqmbug6i2f.css"/>
+  </head>
+  <style>
+	 body{
+		 width:100%;
+		 min-width: 900px;
+		 height:100%
+	 }
+	 .searchBar{
+		width:99%;
+		margin: 10px auto;
+	/* 	border: 2px solid #000000; */
+	 }
+	 .demoTable{
+		 /* border: 1px solid #0000FF; */
+		 height:80%;
+		 width: 100%;
+	 }
+	 .container{
+		width: 93%;
+		height: 86%;
+	   margin: 10px;
+	   padding: 20px;
+	   border-radius: 8px;
+	   box-shadow: 0 3px 18px rgba(28, 19, 19, 0.5);
+/* 	   border: 2px solid #000000; */
+	   font-size: 16px;
+	 }
+
+  </style>
+  <body>
+	  <!--添加或修改的弹出层开始 -->
+	  		 <div class="container" style="display:none;position: absolute;" id="editOrPublish">
+	  				<form class="layui-form" action="" method="post" id="adOrUpForm" lay-filter="adOrUpForm">
+	  				<!-- id表单 -->
+					<div class="layui-form-item" style="display: none;">
+	  				  <div class="layui-inline" >
+	  				    <label class="layui-form-label" style="width: 50px;">ID：</label>
+	  				    <div class="layui-input-inline" >
+	  				      <input style="width: 250px;" type="text" name="id" autocomplete="off" class="layui-input">
+	  				    </div>
+	  				  </div>
+	  				</div>
+					<!-- id表单 -->
+					<!-- 公告标题 -->
+	  		      <div class="layui-form-item" style="margin-bottom: 30px;">
+	  				  <label class="layui-form-label" style="width: 100px;">公告标题：</label>
+	  		        <div class="layui-input-inline" style="position: relative;width:50%;">
+	  		          <input type="text" name="title" id="title" lay-verify="required" class="layui-input" placeholder="请输入公告标题">
+	  		        </div>
+	  		      </div>
+					<!-- 公告标题 -->
+				<!-- 公告内容 -->
+	  		      <div class="layui-form-item" style="position: relative;margin-bottom: 20px;">
+	  		        <div class="layui-inline" style="" >
+	  		          <label class="layui-form-label" style="width: 100px;">公告内容：</label>
+	  		          <div class="layui-input-inline" >
+	  		            <textarea style="min-height:250px;max-height:300px;width:400px;max-width:600px" type="layui-textarea" name="noticeText" id="noticeText" lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入公告内容" maxlength="1024"></textarea>
+	  		          </div>
+	  		        </div>
+	  		      </div>
+				<!-- 公告内容 -->
+				  <div class="layui-input-inline" style="margin-left:160px;">
+				    <button class="layui-btn layui-btn-lg" lay-submit lay-filter="editOrPublish" >提交</button>
+				  </div>
+	  			  </form>
+	  		</div>
+	  <!--添加或修改的弹出层结束 -->
+	  <!-- 搜索开始-->
+	  <div class="searchBar">
+		<form class="layui-form" action="">
+			  <div class="layui-form-item">
+		          <div class="layui-input-inline">
+		            <input type="text" class="layui-input" name="title" id="title" placeholder="公告标题"/>
+		          </div>
+		          <div class="layui-input-inline">
+		            <input type="text" class="layui-input" name="noticeText" id="noticeText" placeholder="公告内容"/>
+		          </div>
+				  <div class="layui-input-inline" style="width: 100px;">
+				    <input type="text"  class="layui-input" name="createTime" id="createTime" placeholder="发布时间">
+				  </div>
+				   <div class="layui-input-inline">
+				        <button type="submit" class="layui-btn" lay-submit="" lay-filter="search">搜索</button>
+				        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				   </div>
+				</div>  
+		</form>
+	  </div>
+	  <!--搜索结束 -->
+	  <!--头工具-->
+	  <script type="text/html" id="toolbarDemo">
+	  		<div class="layui-btn-container">
+	  			<a class="layui-btn layui-btn-sm" lay-event="add">发布公告</a>
+	  			<!-- <a class="layui-btn layui-btn-sm" lay-event="deleteAll">批量删除</a> -->
+	  		</div>
+	  </script>
+	  <!-- 头工具-->
+	  <!--行工具-->
+	  <script type="text/html" id="barDemo">
+	    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+	    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+	    <!-- 这里同样支持 laytpl 语法，如： -->
+<!-- 	    {{#  if(d.auth > 2){ }}
+	      <a class="layui-btn layui-btn-xs" lay-event="check">审核</a>
+	    {{#  } }} -->
+	  </script>
+	  <!-- 行工具结束-->
+	  <!-- 数据表格开始-->
+	 <div class="demoTable">
+		  <table class="layui-hide" id="user" lay-filter="user"></table> 
+	</div>
+	<!--数据表格结束  -->
+   </body>
+<!-- script开始 -->
+	<!-- layui开始 -->
+	<script src="layui/layui.js" charset="utf-8"></script>
+	<script type="text/javascript">
+	layui.use(['table','layer','form','laydate'], function(){
+			var table = layui.table;
+			var layer = layui.layer;
+			var form = layui.form;
+			var laydate=layui.laydate;
+			var search;
+	laydate.render({
+			  elem: '#createTime'
+			});		
+  //方法级渲染
+  var tableIns=table.render({
+    elem: '#user'
+   ,url:'/notice/list'
+   ,method:'post'
+   ,contentType: 'application/json'
+   ,even:true
+   ,skin:'row'
+   ,unresize:'true'
+   ,height:'full-90'
+   ,where:search
+	,toolbar: '#toolbarDemo'//开启头部工具栏，并为其绑定左侧模板
+    ,cols: [[
+		{type:'checkbox'}
+		,{field:'id',title:'ID',width:'100',sort:true,align:'center'}
+		,{field:'title', title: '公告标题', width:'20%',align:'center'}
+		,{field:'noticeText', title: '公告内容（点击内容查看详情）', width:'35%',align:'center',event:'viewDetail'}
+		,{field:'createTime', title: '发布时间',align:'center',width:'180'}
+		,{fixed:'right',title:'操作',align:'center',toolbar:'#barDemo',width:'150'}
+    ]]
+	,page: true
+	, parseData: function(res) { //res 即为原始返回的数据
+		  return {
+			  "code": res.code, //解析接口状态
+			  "msg": res.msg, //解析提示文本
+			  "count": res.data.total, //解析数据长度
+			  "data": res.data.records //解析数据列表
+		  };
+	  }
+	  , response: {
+		  statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
+	  }
+	  ,request: {
+    	pageName: "displayStart",
+		  limitName: "displayLength"
+	  }
+	,done:function(res,curr,count){
+		console.log(res);
+	}
+  });
+  
+	var url;//添加或修改的url;
+	var mainIndex;//关闭的弹出层索引
+  //打开添加页面
+  function openAddNotice(){
+  	  mainIndex=layer.open({
+  	    type: 1, 
+  	    title:"添加公告",
+		area:['70%','100%'],
+  	    content: $("#editOrPublish"),/* '传入任意的文本或html' *///这里content是一个普通的String
+		anim:5,
+		resize:false,
+		scrollbar: false,
+		success:function(index){
+			$("#adOrUpForm")[0].reset();
+			url="/notice/saveOrUpdateNotice";
+		}
+  	  });
+  }
+ 
+  //打开修改页面
+  function openUpdateNotice(data){
+  	  mainIndex=layer.open({
+  	    type: 1, 
+  	    title:"修改公告",
+		area:['70%','100%'],
+  	    content: $("#editOrPublish"),/* '传入任意的文本或html' *///这里content是一个普通的String
+		anim:5,
+		resize:false,
+		scrollbar: false,
+  		success:function(index){
+  			form.val("adOrUpForm",data);
+			url="/notice/saveOrUpdateNotice";
+  		}
+  	  });
+  }
+  /*添加或修改公告表单提交 */
+  form.on('submit(editOrPublish)', function(data){
+         //序列化表单数据
+		  var params= $("#adOrUpForm").serialize();
+          $.ajax({
+            url:url,
+            method:'POST',
+            contentType: 'application/json',
+            async:false,
+            data:JSON.stringify(data.field),
+            success: function(res) {
+  				 layer.msg(res.msg, {time: 3000, icon:6});
+					layer.close(mainIndex);
+					tableIns.reload();
+            	}
+			
+            })
+            return false;
+        });
+
+/*搜索表单提交 */
+  form.on('submit(search)', function(data){
+		table.reload('user',{
+			where: data.field,
+			page:{
+				curr :1,
+			},
+		})
+	  return false;
+        });
+
+  //删除方法
+  function del(codeId) {
+	  layer.confirm("您确定要删除吗？",function(){
+		  $.ajax({
+			  type:"DELETE",
+			  url: 'notice/deleteByIds',
+			  contentType:'application/json',
+			  data:JSON.stringify({"ids":codeId}),
+			  success:function (data) {
+				  layer.closeAll('loading');
+				  if(data.code==200){
+					  layer.msg('删除成功！', {icon: 1,time:2000,shade:0.2});
+					  location.reload(true);
+				  }else{
+					  layer.msg('删除失败！', {icon: 2,time:3000,shade:0.2});
+				  }
+			  }
+		  })
+	  })
+  }
+
+ //头工具栏事件
+  table.on('toolbar(user)', function(obj){
+	var checkStatus=table.checkStatus(obj.config.id);
+	var data=checkStatus.data;
+    switch(obj.event){
+      case 'add':
+		openAddNotice();
+		break;
+      /* //自定义头工具栏右侧图标 - 提示
+      case 'LAYTABLE_TIPS':
+        layer.alert('这是工具栏右侧自定义的一个图标按钮');
+      break; */
+    };
+  })
+
+//监听行工具事件
+  table.on('tool(user)', function(obj){
+	var data = obj.data; //获得当前行数据
+	var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+	var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+    if(layEvent === 'viewDetail'){
+    	layer.open({
+			type: 1, 
+			title:"公告详情",
+			/* id:"noticeFrame", *///设置该值后，不管是什么类型的层，都只允许同时弹出一个。一般用于页面层和iframe层模式
+			content: '<div style="width:80%;height:90%;margin:10px auto;"><div style="font-size: 2em;line-height: 1.5em;margin-bottom:2em;color: #123;font-weight: bold;">'+data.title+'</div><pre style="font-size:1.2em;">' + data.noticeText + '</pre></div>',/* '传入任意的文本或html' *///这里content是一个普通的String
+    		area:['70%','100%'],
+    		anim:5,
+    		resize:false,
+			shadeClose:true,
+    	});
+    }else if(layEvent === 'edit'){
+		openUpdateNotice(data);
+	}else if(layEvent === 'del'){
+		del([data.id]);
+	}
+  })
+
+});
+</script>
+</html>

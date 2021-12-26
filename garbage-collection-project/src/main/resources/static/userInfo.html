@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>用户信息</title>
+  <script src="js/jquery-3.5.1.min.js"></script>
+  <script src="layui/layui.js" charset="utf-8"></script>
+  <link rel="stylesheet" type="text/css" href="layui/css/layui.css" />
+  <style type="text/css">
+    html{
+      height:100%;
+    }
+    .container{
+      width: 520px;
+      height: 520px;
+      min-height:520px;
+      max-height:520px;
+      position: absolute;
+      top: 24px;
+      left: -17px;
+      bottom: 0;
+      right: 0;
+      margin: auto;
+      padding: 20px;
+      z-index: 130;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+	.layui-form-item{
+		margin: 20px 0px;
+	}
+    .layui-input{
+            border-radius: 5px;
+            height: 40px;
+            font-size: 15px;
+    }
+    .layui-form-label{
+      font-weight: bold;
+      width: 60px;
+    }
+    .layui-btn{
+      text-align: center;
+      border-radius: 5px;
+      width: 350px;
+      height: 40px;
+      font-size: 15px;
+    }
+    .font-set{
+      font-size: 13px;
+      text-decoration: none;
+      position:relative;
+      left: 230px;
+    }
+	a{
+		position: absolute;
+		margin-left: -15px;
+	}
+    a:hover{
+      text-decoration: underline;
+    }
+	#avatarUp{
+		display: flex;
+		 /* 水平居中 */
+		align-items: center;     /* 垂直居中 */
+	}
+  </style>
+</head>
+<body>
+<form class="layui-form" action="" method="post" lay-filter="saveOrUpdate">
+  <div class="container">
+    <div class="layui-upload" id="avatarUp">
+		<div class="layui-upload-list" style="align-items: center;justify-content: center; display: flex;">
+		<label class="layui-form-label">头像：</label>
+		  <img class="layui-upload-img" id="demo1" style="width: 60px; height: 60px; margin-right: 10px;">
+		  <button onclick="return false;" class="layui-btn layui-btn-sm" style="width: 100px;">更新头像</button>
+		</div>
+	</div>
+    <div class="layui-form-item" style="display: none; position: relative;margin-bottom: 30px;">
+      <div class="layui-inline"style="position: relative;left: -30px;" >
+        <label class="layui-form-label" style="width: 50px;">ID：</label>
+        <div class="layui-input-inline" >
+          <input style="width: 250px;" type="text" name="id" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item" style="color: #0f2000;">
+      <div class="layui-inline" >
+        <label class="layui-form-label">姓名：</label>
+        <div class="layui-input-inline" style="width: 100px">
+          <input type="text" name="name" lay-verify="required|name" autocomplete="off" class="layui-input" placeholder="仅限中文">
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">性别：</label>
+        <div class="layui-input-inline" style="width: 110px">
+          <select name="sex" lay-verify="required">
+            <option value="">选择性别</option>
+            <option value="0">女</option>
+            <option value="1">男</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="layui-form-item" style="color: #0f2000;">
+
+		 <div class="layui-inline">
+		  <label class="layui-form-label">生日：</label>
+		  <div class="layui-input-inline" style="width: 100px;">
+		    <input type="text"  class="layui-input" name="birthday" id="birthday" placeholder="yyyy-MM-dd">
+		  </div>
+		 </div>
+		<div class="layui-inline" style="width: 260px;">
+        <label class="layui-form-label">邮箱：</label>
+        <div class="layui-input-inline" style="width: 160px">
+          <input type="text" name="email" lay-verify="email|required" autocomplete="off" class="layui-input" placeholder="请输入邮箱">
+        </div>
+		</div>
+    </div>
+
+    <div class="layui-form-item" style="color: #0f2000">
+
+        <label class="layui-form-label">住址：</label>
+      <div class="layui-input-inline" style="width: 400px;">
+        <textarea placeholder="请输入详细地址" class="layui-textarea" name="address" lay-verify="required" style="min-height:64px;max-height:84px;max-width:380px;"></textarea>
+      </div>
+    </div>
+    <div class="layui-form-item" style="color: #0f2000;position: relative;left: -5px;">
+      <div class="layui-inline" style="width: 225px">
+        <label class="layui-form-label" style="width:65px">手机号：</label>
+        <div class="layui-input-inline" style="width: 120px">
+          <input readonly="readonly" unselectable="on" type="tel" name="tel" lay-verify="required|phone" autocomplete="off" class="accountNum layui-input layui-disabled" placeholder="请输入手机号">
+        </div>
+      </div>
+      <div class="layui-inline" style="width: 225px">
+        <label class="layui-form-label" style="width: 65px">用户名：</label>
+        <div class="layui-input-inline" style="width: 120px">
+          <input readonly="readonly" unselectable="on" type="text" name="username" lay-verify="required" autocomplete="off" class="accountNum layui-input layui-disabled" style="width:120px;">
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item" style="text-align: center;">
+      <div class="layui-input-block" style="margin-left: 0;">
+        <button class="layui-btn  layui-icon layui-icon-username" lay-submit lay-filter="update">保存信息</button>
+      </div>
+    </div>
+    <a href class="font-set" id="noAlter">修改密码</a>
+  </div>
+</form>
+<script type="text/javascript">
+  layui.use(['form', 'layedit', 'laydate','layer','upload'], function() {
+    var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate
+            ,layer=layui.layer
+            , $ = layui.jquery
+            ,upload = layui.upload;
+    laydate.render({
+      elem: '#birthday'
+    });
+    const IMG_URL = 'http://localhost:8085/';
+	var src1;
+    $.ajax({
+      url:  '/user/getUserById/' + sessionStorage.getItem('userId'),
+      contentType: 'application/json',
+      success: function (res) {
+        console.log(res.data);
+        form.val("saveOrUpdate",JSON.parse(JSON.stringify(res.data)));
+        $('#demo1').attr('src',IMG_URL+res.data.avatarUrl);
+		if (res.data.type==1) {
+		  src1 = 'adminIndex.html';
+		} else if(res.data.type==0) {
+		  src1 = 'userIndex.html';
+		}else if(res.data.type==2){
+		  src1 = 'superIndex.html';
+		}
+		$("#noAlter").attr("href","pswAlter.html");
+      }
+    })
+//提交修改
+	form.on('submit(update)', function(data){
+		$.ajax({
+			url:"/user/update",
+			method:'POST',
+			contentType: 'application/json',
+			async:false,
+			data:JSON.stringify(data.field),
+			success: function(res) {
+						  layer.msg('修改成功啦', {time: 2000, icon:6});
+						}
+		})
+    return false;
+  });
+//更新头像
+ var uploadInst = upload.render({
+      elem: '#avatarUp'
+      ,url: '/user/upload' //改成您自己的上传接
+      ,method:'POST'
+      ,data: {
+        userId: function(){
+          return sessionStorage.getItem('userId');
+        }
+      }
+      ,before: function(obj){
+        //预读本地文件示例，不支持ie8
+        obj.preview(function(index, file, result){
+          $('#demo1').attr('src', result); //图片链接（base64）
+        });
+      }
+      ,done: function(res){
+        //如果上传失败
+        if(res.code == 200){
+          return layer.msg('上传成功');
+        }
+        //上传成功
+      }
+      ,error: function(){
+        //演示失败状态，并实现重传
+        var demoText = $('#demoText');
+        demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+        demoText.find('.demo-reload').on('click', function(){
+          uploadInst.upload();
+        });
+      }
+    });
+
+  });
+</script>
+</body>
+</html>

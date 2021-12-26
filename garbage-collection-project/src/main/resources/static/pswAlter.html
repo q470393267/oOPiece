@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>修改密码</title>
+	    <script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
+		<script type="text/javascript" src="js/share.js"></script>
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css" />
+
+    <style type="text/css">
+      html{
+        height:100%;
+      }
+      .container{
+      width: 420px;
+      height: 420px;
+      min-height:320px;
+      max-height:400px;
+      position: absolute;
+      top: 20px;
+      left: -17px;
+      bottom: 0;
+      right: 0;
+       margin:0 auto;
+       padding: 20px;
+       z-index: 130;
+       font-size: 16px;
+     }
+     .layui-input{
+       border-radius: 5px;
+       width: 200px;
+       height: 40px;
+       font-size: 15px;
+     }
+     a:hover{
+       text-decoration: underline;
+     }
+	 .layui-form-label{
+		 font-weight: bold;
+	 }
+	 #items{
+		 margin:20px auto;
+/* 		 width: 300px; */
+		 display: flex;
+	/* 	 justify-content: space-around; */
+		 flex-direction: column;
+/* 		 border: 1px solid deeppink; */
+	 }
+	 .layui-form-item{
+		 margin: 1.25rem;
+	 }
+    </style>
+  </head>
+
+  <body>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <form class="layui-form" action="" method="post">
+      <div class="container">
+	  <div id="items">
+		  <div class="layui-form-item" style="display: none;">
+		    <label class="layui-form-label">ID：</label>
+		    <div class="layui-input-inline">
+		      <input type="Newpsw" id="id" name="id" required  lay-verify="required" value="" autocomplete="off" class="layui-input">
+		    </div>
+		  </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label" style="color:#0f2000 ;">原密码：</label>
+          <div class="layui-input-inline">
+            <input type="Newpsw" id="NowPsw" name="oldPassword" required  lay-verify="required" placeholder="请输入原密码" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label" style="color:#0f2000 ;">新密码：</label>
+          <div class="layui-input-inline">
+            <input type="password" oninput="OnInput (event)" class="NewPsw1 layui-input" name="newPassword" required lay-verify="required" placeholder="请输入新密码" autocomplete="off" >
+			<span class="tip1"></span>
+		  </div>
+        </div>
+		<div class="layui-form-item">
+		  <label class="layui-form-label" style="color:#0f2000 ;">确认一遍：</label>
+		  <div class="layui-input-inline">
+		    <input type="password" oninput="OnInput (event)" class="NewPsw2 layui-input" name="NewPsw2" required lay-verify="required" placeholder="请输入新密码" autocomplete="off">
+			<span class="tip2"></span>
+		  </div>
+		</div>
+        <div class="layui-form-item">
+          <div class="layui-input-block" style="position: relative;left: -40px;">
+            <button id="confirm" class="layui-btn layui-btn-normal layui-icon layui-icon-username" disabled="" lay-submit lay-filter="alter">确认修改</button>
+			<a href="userInfo.html" class="font-set" style="font-weight:bold;font-size:1rem;margin-left: 20px;">算了，不修改了</a>
+		  </div>
+        </div>
+		
+      </div>
+	  </div>
+    </form>
+
+
+  </body>
+  <script type="text/javascript">
+    $("#id").attr("value",sessionStorage.userId);
+    layui.use(['form', 'layedit', 'laydate'], function(){
+      var form = layui.form
+              ,layer = layui.layer
+              ,layedit = layui.layedit
+              ,laydate = layui.laydate;
+      form.on('submit(alter)', function(data){
+        /*sessionStorage.setItem("1",JSON.stringify(data.field));
+        layer.alert(JSON.stringify(data.field), {
+          title: '最终的提交信息'
+        })*/
+        $.ajax({
+          url:"/user/changePwd",
+          method:'POST',
+          contentType: 'application/json',
+          async:false,
+          data:JSON.stringify(data.field),
+          success: function(res) {
+            console.log(res);
+            if (res.code != 200) {
+              layer.alert(res.msg);
+              reloadCaptcha();
+            } else {
+                    top.location.href =  'login.html';
+            }
+          }
+        })
+        return false;
+      });
+    })
+	
+    function reloadCaptcha(){
+      $.ajax({
+        url: 'http://localhost:8085/user/captcha.jpg',
+        // 把接收到的图片转成二进制
+        xhr: function() {
+          var xhr = new XMLHttpRequest()
+          xhr.responseType = 'blob'
+          return xhr
+        },
+        success: function(res) {
+          var img = document.getElementById('captchaImg');
+          var url = window.URL || window.webkitURL;
+          img.src = url.createObjectURL(res);
+        }
+      })
+    }
+  </script>
+</html>

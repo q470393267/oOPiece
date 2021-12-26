@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>注册</title>
+  <script src="js/jquery-3.5.1.min.js"></script>
+  <script src="layui/layui.js" charset="utf-8"></script>
+  <script type="text/javascript" src="js/share.js"></script>
+  <link rel="stylesheet" type="text/css" href="layui/css/layui.css" />
+  <style type="text/css">
+    html{
+      height:100%;
+    }
+    body{
+      background: url("img/bg1.jpg") no-repeat top rgb(195, 247, 245);
+      background-size: cover;/* 此时会保持图像的纵横比并将图像缩放成将完全覆盖背景定位区域的最小大小。 */
+    }
+    .cover{
+      position:absolute;
+      top:0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+     display: none;
+    }
+    .container{
+      width: 520px;
+      height: 470px;
+      min-height:470px;
+      max-height:520px;
+	  min-width: 500px;
+      position: absolute;
+      top: 23px;
+      left: -17px;
+      bottom: 0;
+      right: 0;
+      margin: auto;
+      padding: 20px;
+      z-index: 130;
+      border-radius: 8px;
+      box-shadow: 0 3px 18px rgba(28, 19, 19, 0.5);
+      font-size: 16px;
+      background: rgba(234,255,220,0.4);
+    }
+	.layui-form-item{
+		margin: 20px 0px;
+	}
+    .layui-input{
+            border-radius: 5px;
+            height: 40px;
+            font-size: 15px;
+    }
+    .layui-form-label{
+      width: 60px;
+    }
+    .font-set{
+      font-size: 13px;
+      text-decoration: none;
+      position:relative;
+      left: 230px;
+    }
+    a:hover{
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<form class="layui-form" action="" method="post">
+  <div class="container">
+    <div class="layui-form-item">
+      <div class="layui-inline" >
+        <label class="layui-form-label">姓名：</label>
+        <div class="layui-input-inline" style="width: 100px">
+          <input type="text" name="name" lay-verify="required|name" autocomplete="off" class="layui-input" placeholder="仅限中文">
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">性别：</label>
+        <div class="layui-input-inline" style="width: 110px">
+          <select name="sex" lay-verify="required">
+            <option value="">选择性别</option>
+            <option value="0">女</option>
+            <option value="1">男</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+		  <label class="layui-form-label">生日：</label>
+		  <div class="layui-input-inline" style="width: 100px;">
+		    <input type="text"  class="layui-input" name="birthday" id="birthday" placeholder="yyyy-MM-dd">
+		  </div>
+		<div class="layui-inline" style="width: 260px;">
+        <label class="layui-form-label">邮箱：</label>
+        <div class="layui-input-inline" style="width: 160px">
+          <input type="text" name="email" lay-verify="email|required" autocomplete="off" class="layui-input" placeholder="请输入邮箱">
+        </div>
+		</div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">住址：</label>
+		<div class="layui-input-inline" style="width: 400px;">
+			<textarea placeholder="请输入详细地址" class="layui-textarea" name="address" lay-verify="required" style="min-height:64px;max-height:84px;max-width:380px;"></textarea>
+		</div>
+    </div>
+    <div class="layui-form-item" style="position: relative;left: -5px;">
+      <div class="layui-inline" style="width: 225px">
+        <label class="layui-form-label" style="width:65px">手机号：</label>
+        <div class="layui-input-inline" style="width: 120px">
+          <input type="tel" name="tel" lay-verify="required|phone" autocomplete="off" class="accountNum layui-input" placeholder="请输入手机号">
+        </div>
+      </div>
+      <div class="layui-inline" style="width: 225px">
+        <label class="layui-form-label" style="width: 65px">用户名：</label>
+        <div class="layui-input-inline" style="width: 120px">
+          <input type="text" name="username" lay-verify="required" autocomplete="off" class="accountNum layui-input" style="width:120px;">
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item" style="width: 490px">
+      <div class="layui-inline " style="width:  220px;">
+        <label class="layui-form-label">密码：</label>
+        <div class="layui-input-inline" style="width: 100px">
+          <input type="password" id="password" lay-verify="required|psw" placeholder="请输入密码" autocomplete="off" class="layui-input NewPsw1" oninput="OnInput (event)" style="width:7.5rem;">
+			<span class="tip1"></span>
+        </div>
+      </div>
+      <div class="layui-inline" style="width: 220px;">
+        <label class="layui-form-label" style="width: 70px">确认密码:</label>
+        <div class="layui-input-inline" oninput="OnInput (event)" style="width: 100px">
+          <input type="password" id="password" name="password" lay-verify="required|verifyPsw" placeholder="再次输入密码" autocomplete="off" class="layui-input NewPsw2" oninput="OnInput (event)" style="width:7.5rem;">
+			<span class="tip2"></span>
+		</div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button class="layui-btn  layui-icon layui-btn-normal layui-icon-username" lay-submit lay-filter="register">立即注册</button>
+		 <a href="login.html" class="font-set" style="font-weight:bold;font-size:1rem;position: relative; left:50px;" >回去登陆</a>
+      </div>
+    </div>
+   
+  </div>
+</form>
+<script type="text/javascript">
+  layui.use(['form', 'layedit', 'laydate','layer'], function() {
+    var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate
+            ,layer=layui.layer;
+    laydate.render({
+      elem: '#birthday'
+    });
+	form.on('submit(register)', function(data){
+		$.ajax({
+			url:"http://localhost:8085/user/register",
+			method:'POST',
+			contentType: 'application/json',
+			async:false,
+			data:JSON.stringify(data.field),
+			success: function(res) {
+						  layer.alert(res.msg, {
+							end: function() {
+							  if (res.code == 200) location.href = 'login.html';
+							}
+						  })
+						}
+		})
+		return false;
+	});
+  });
+</script>
+</body>
+</html>
